@@ -433,3 +433,20 @@ int levenshtein(const char *s1, const char *s2) {
 	free(column);
 	return i;
 }
+
+///comparator for qsort 
+//comparing int
+int compare_int(const void *a,const void *b) {
+	int *x = (int *) a;
+	int *y = (int *) b;
+	return *x - *y;
+}
+
+//comparing string
+int compare_str(const void *a,const void *b) {
+	if (!(char *)a)
+		return 1;
+	if (!(char *)b)
+		return 1;
+	return (strcmp((char *)a,(char *)b));
+}

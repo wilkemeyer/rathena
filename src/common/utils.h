@@ -50,4 +50,7 @@ uint32 date2version(int date);
 
 int levenshtein(const char *s1, const char *s2);
 
+int compare_int(const void *a,const void *b);
+int compare_str(const void *a,const void *b);
+
 #endif /* _UTILS_H_ */

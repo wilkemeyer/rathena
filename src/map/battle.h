@@ -591,6 +591,7 @@ extern struct Battle_Config
 	int homunculus_evo_intimacy_reset;
 	int monster_loot_search_type;
 	int feature_roulette;
+	int atcommand_show_aliases; // Show aliases on @commands [Cydh]
 } battle_config;
 
 void do_init_battle(void);

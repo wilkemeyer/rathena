@@ -8176,6 +8176,7 @@ static const struct _battle_data {
 	{ "homunculus_evo_intimacy_reset",      &battle_config.homunculus_evo_intimacy_reset,   1000,   0,      INT_MAX,        },
 	{ "monster_loot_search_type",           &battle_config.monster_loot_search_type,        1,      0,      1,              },
 	{ "feature.roulette",                   &battle_config.feature_roulette,                1,      0,      1,              },
+	{ "atcommand_show_aliases",             &battle_config.atcommand_show_aliases,          0,      0,      1,              },
 };
 
 #ifndef STATS_OPT_OUT
