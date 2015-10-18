@@ -228,7 +228,7 @@ CREATE TABLE `$db` (
 			$db = $sTable;
 			$db = "item_db_re" unless($db);
 			$nb_columns = 22;
-			@str_col = (1,2,7,16,19,20,21);
+			@str_col = (1,2,7,8,16,19,20,21);
 			@str_col2 = (19,20,21);
 			$line_format = "([^\,]*),"x($nb_columns-3)."(\{.*\}),"x(2)."(\{.*\})"; #Last 3 columns are scripts.
 			$create_table =
@@ -246,7 +246,7 @@ CREATE TABLE `$db` (
   `price_sell` mediumint(8) unsigned DEFAULT NULL,
   `weight` smallint(5) unsigned NOT NULL DEFAULT '0',
   `atk:matk` varchar(11) DEFAULT NULL,
-  `defence` smallint(5) unsigned DEFAULT NULL,
+  `defence` varchar(11) unsigned DEFAULT NULL,
   `range` tinyint(2) unsigned DEFAULT NULL,
   `slots` tinyint(2) unsigned DEFAULT NULL,
   `equip_jobs` int(10) unsigned DEFAULT NULL,

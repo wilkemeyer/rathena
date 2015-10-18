@@ -3142,6 +3142,9 @@ int status_calc_pc_(struct map_session_data* sd, enum e_status_calc_opt opt)
 			continue;
 
 		status->def += sd->inventory_data[index]->def;
+#ifdef RENEWAL
+		status->mdef += sd->inventory_data[index]->mdef;
+#endif
 
 		// Items may be equipped, their effects however are nullified.
 		if (opt&SCO_FIRST && sd->inventory_data[index]->equip_script && (pc_has_permission(sd,PC_PERM_USE_ALL_EQUIPMENT)

@@ -13090,7 +13090,8 @@ BUILDIN_FUNC(getitemslots)
 		13 wlv;
 		14 view id
 		15 eLvmax
-		16 matk (renewal)
+		16 matk (Renewal)
+		17 mdef (Renewal)
  *------------------------------------------*/
 BUILDIN_FUNC(getiteminfo)
 {
@@ -13101,10 +13102,10 @@ BUILDIN_FUNC(getiteminfo)
 	n	= script_getnum(st,3);
 	i_data = itemdb_exists(item_id);
 
-	if (i_data && n <= 16) {
+	if (i_data && n < 18) {
 		int *item_arr = (int*)&i_data->value_buy;
 #ifndef RENEWAL
-		if (n == 16)
+		if (n > 15)
 			script_pushint(st,0);
 		else
 #endif

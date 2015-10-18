@@ -2831,7 +2831,8 @@ Valid types are:
 	13 - wLV
 	14 - SpriteID from 'db/item_avail.txt'
 	15 - eLVMax
-	16 - matk if RENEWAL is defined
+	16 - MATK (Renewal)
+	17 - MDEF (Renewal)
 
 See the sample in 'doc/sample/getiteminfo.txt'.
 

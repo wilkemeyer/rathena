@@ -1287,10 +1287,11 @@ static bool itemdb_parse_dbrow(char** str, const char* source, int line, int scr
 	id->weight = atoi(str[6]);
 #ifdef RENEWAL
 	itemdb_re_split_atoi(str[7],&id->atk,&id->matk);
+	itemdb_re_split_atoi(str[8],&id->def,&id->mdef);
 #else
 	id->atk = atoi(str[7]);
-#endif
 	id->def = atoi(str[8]);
+#endif
 	id->range = atoi(str[9]);
 	id->slot = atoi(str[10]);
 

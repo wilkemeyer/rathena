@@ -62,6 +62,8 @@ MATK: Weapon's magic attack (Renewal only)
 
 DEF: Armor's defense
 
+MDEF: Armor's magic defense (Renewal only)
+
 ---------------------------------------
 
 Range: Weapon's attack range

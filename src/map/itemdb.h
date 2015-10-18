@@ -409,6 +409,7 @@ struct item_data
 	int elvmax; ///< Maximum level for this item
 #ifdef RENEWAL
 	int matk;
+	int mdef;
 #endif
 
 	int delay;
