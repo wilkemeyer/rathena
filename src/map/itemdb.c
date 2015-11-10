@@ -1066,7 +1066,7 @@ bool itemdb_parse_roulette_db(void)
 	uint32 count = 0;
 
 	// retrieve all rows from the item database
-	if (SQL_ERROR == Sql_Query(mmysql_handle, "SELECT * FROM `%s`", roulette_table)) {
+	if (SQL_ERROR == Sql_Query(mmysql_handle, "SELECT * FROM `%s`", mapserv_table(roulette_table))) {
 		Sql_ShowDebug(mmysql_handle);
 		return false;
 	}
@@ -1146,7 +1146,7 @@ bool itemdb_parse_roulette_db(void)
 		}
 	}
 
-	ShowStatus("Done reading '"CL_WHITE"%lu"CL_RESET"' entries in '"CL_WHITE"%s"CL_RESET"'.\n", count, roulette_table);
+	ShowStatus("Done reading '"CL_WHITE"%lu"CL_RESET"' entries in '"CL_WHITE"%s"CL_RESET"'.\n", count, mapserv_table(roulette_table));
 
 	return true;
 }
