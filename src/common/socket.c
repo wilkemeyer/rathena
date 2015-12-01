@@ -298,18 +298,22 @@ void setsocketopts(int fd,int delay_timeout){
 	sSetsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char *)&yes, sizeof(yes));
 
 	// force the socket into no-wait, graceful-close mode (should be the default, but better make sure)
-	//(http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winsock/winsock/closesocket_2.asp)
+	//(https://msdn.microsoft.com/en-us/library/windows/desktop/ms737582%28v=vs.85%29.aspx)
 	{
-	struct linger opt;
-	opt.l_onoff = 0; // SO_DONTLINGER
-	opt.l_linger = 0; // Do not care
-	if( sSetsockopt(fd, SOL_SOCKET, SO_LINGER, (char*)&opt, sizeof(opt)) )
-		ShowWarning("setsocketopts: Unable to set SO_LINGER mode for connection #%d!\n", fd);
+		struct linger opt;
+		opt.l_onoff = 0; // SO_DONTLINGER
+		opt.l_linger = 0; // Do not care
+		if( sSetsockopt(fd, SOL_SOCKET, SO_LINGER, (char*)&opt, sizeof(opt)) )
+			ShowWarning("setsocketopts: Unable to set SO_LINGER mode for connection #%d!\n", fd);
 	}
 	if(delay_timeout){
+#if defined(WIN32)
+		int timeout = delay_timeout;
+#else
 		struct timeval timeout;
 		timeout.tv_sec = delay_timeout;
 		timeout.tv_usec = 0;
+#endif
 
 		if (sSetsockopt (fd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout,sizeof(timeout)) < 0)
 			ShowError("setsocketopts: Unable to set SO_RCVTIMEO timeout for connection #%d!\n");
