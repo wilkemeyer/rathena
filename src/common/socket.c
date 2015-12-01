@@ -308,7 +308,7 @@ void setsocketopts(int fd,int delay_timeout){
 	}
 	if(delay_timeout){
 #if defined(WIN32)
-		int timeout = delay_timeout;
+		int timeout = delay_timeout * 1000;
 #else
 		struct timeval timeout;
 		timeout.tv_sec = delay_timeout;
