@@ -568,7 +568,51 @@ int make_connection(uint32 ip, uint16 port, bool silent,int timeout) {
 
 	if( !silent )
 		ShowStatus("Connecting to %d.%d.%d.%d:%i\n", CONVIP(ip), port);
+#ifdef WIN32
+	// On Windows we have to set the socket non-blocking before the connection to make timeout work. [Lemongrass]
+	set_nonblocking(fd, 1);
 
+	result = sConnect(fd, (struct sockaddr *)(&remote_address), sizeof(struct sockaddr_in));
+
+	if( result == SOCKET_ERROR ) {
+		// That is the error we intend, because we want to use a timeout
+		if( sErrno == S_EWOULDBLOCK ){
+			fd_set writeSet;
+			struct timeval tv;
+
+			sFD_ZERO(&writeSet);
+			sFD_SET(fd,&writeSet);
+
+			tv.tv_sec = timeout;
+			tv.tv_usec = 0;
+
+			// Try to find out if the socket is writeable yet(within the timeout)
+			if( sSelect(0, NULL, &writeSet, NULL, &tv) == 0 ){
+				// Our connection attempt timed out
+				if( !silent )
+					ShowError("make_connection: connect failed because of a timeout (socket #%d)!\n", fd); // No socket error to report here
+				do_close(fd);
+				return -1;
+			}else{
+				// Check if the socket is writeable
+				if( sFD_ISSET(fd,&writeSet) == 0 ){
+					if( !silent )
+						ShowError("make_connection: connect failed (socket #%d, %s)!\n", fd, error_msg());
+					do_close(fd);
+					return -1;
+				}
+				// Our socket is writeable now => we have connected successfully
+			}
+		}else{
+			// All other errors should be reported immediately
+			if( !silent )
+				ShowError("make_connection: connect failed (socket #%d, %s)!\n", fd, error_msg());
+			do_close(fd);
+			return -1;
+		}
+	}
+	// Keep the socket in non-blocking mode, since we would set it to non-blocking here on unix. [Lemongrass]
+#else
 	result = sConnect(fd, (struct sockaddr *)(&remote_address), sizeof(struct sockaddr_in));
 	if( result == SOCKET_ERROR ) {
 		if( !silent )
@@ -576,8 +620,10 @@ int make_connection(uint32 ip, uint16 port, bool silent,int timeout) {
 		do_close(fd);
 		return -1;
 	}
+
 	//Now the socket can be made non-blocking. [Skotlex]
 	set_nonblocking(fd, 1);
+#endif
 
 	if (fd_max <= fd) fd_max = fd + 1;
 	sFD_SET(fd,&readfds);
